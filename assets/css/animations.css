@@ -1,0 +1,69 @@
+/* ============================================================
+   ANIMATIONS.CSS — Animaciones y reveals en scroll
+   ------------------------------------------------------------
+   Keyframes reutilizables + el sistema de revelado al scroll.
+   Las animaciones respetan prefers-reduced-motion (definido en
+   base.css) — los usuarios con esa preferencia las verán
+   prácticamente instantáneas.
+   ============================================================ */
+
+
+/* ─── KEYFRAMES ──────────────────────────────────────────── */
+
+/* Anillos del hero que se expanden simulando ondas de agua */
+@keyframes ringExpand {
+  0%   { transform: translate(-50%, -50%) scale(0.7); opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0; }
+}
+
+/* Flotación suave de la gota del hero (sube y baja 12px) */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+/* Puntito que pulsa en el badge "Servicio 24h" (indicador "vivo") */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* Entrada de los botones flotantes (WhatsApp y llamada) al cargar
+   la página. Pequeño rebote para llamar la atención. */
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.5) translateY(20px); }
+  80%  { transform: scale(1.05) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Spinner del botón "Enviar Solicitud" mientras procesa */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Pulso del botón WhatsApp flotante — invita al click */
+@keyframes waPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+  50%      { box-shadow: 0 4px 28px rgba(37, 211, 102, 0.7); }
+}
+
+
+/* ─── ENTRADAS DE LOS BOTONES FLOTANTES ──────────────────────
+   El de WhatsApp aparece con bounce + pulso continuo cada 3.5s.
+   El de llamada solo aparece con bounce (más sutil).
+   ──────────────────────────────────────────────────────────── */
+.float-wa   { animation: bounceIn .5s ease-out 1s both, waPulse 3.5s ease-in-out 2s infinite; }
+.float-call { animation: bounceIn .5s ease-out 1.2s both; }
+
+
+/* ─── SCROLL REVEAL ──────────────────────────────────────────
+   Los elementos con clase .reveal arrancan invisibles (opacity 0
+   + desplazados 28px hacia abajo). Cuando el JS (IntersectionObserver
+   en main.js) detecta que entran en el viewport, agrega .is-visible
+   y se animan a su posición final.
+   ──────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }

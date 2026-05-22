@@ -1,0 +1,147 @@
+/* ============================================================
+   BASE.CSS — Fundamentos del sistema de diseño
+   ------------------------------------------------------------
+   Aquí vive todo lo que es transversal a todo el sitio:
+   • Reset CSS (normalizar comportamiento entre navegadores)
+   • Design tokens (variables de color, espaciado, radios)
+   • Tipografía base y helpers reutilizables (eyebrow, .icon)
+   Cualquier cambio aquí impacta TODO el sitio — modificar con cuidado.
+   ============================================================ */
+
+
+/* ─── RESET ──────────────────────────────────────────────────
+   Quita márgenes/padding por defecto del browser y unifica
+   el modelo de caja (border-box) para que width incluya borde
+   y padding — facilita calcular layouts.
+   ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+/* ─── DESIGN TOKENS ──────────────────────────────────────────
+   Variables CSS centralizadas. Cambiar el valor aquí actualiza
+   en cascada toda la página. Si se quiere cambiar el acento azul
+   a otro color de marca, solo se toca --accent (y sus derivados).
+
+   Paleta "Clustr studio":
+     • Jet Black   #0D0D0D  → fondos oscuros
+     • Bold Blue   #1E466B  → azul profundo (superficies/gradientes)
+     • Light Blue  #67BAF4  → acento principal brillante
+     • Soft White  #FAFAFA  → texto/blanco
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* Paleta de fondos en escala de oscuridad (base Jet Black con leve matiz azul) */
+  --navy:        #0D0D0D;   /* Jet Black — fondo principal del sitio */
+  --navy-mid:    #12141A;   /* Secciones alternas (propósito, footer) */
+  --navy-soft:   #171A22;   /* Cards de valores y tipos de cliente */
+  --navy-elev:   #202632;   /* Estado hover de cards (un poco más claro) */
+
+  /* Acento azul SEMAX y sus derivados */
+  --blue-deep:     #1E466B;                       /* Bold Blue — azul profundo para superficies/gradientes */
+  --accent:        #67BAF4;                        /* Light Blue — color de acento principal */
+  --accent-bright: #8FCEF7;                        /* Hover de botones — azul más claro */
+  --accent-dim:    #3E7DB0;                        /* Versión apagada para detalles secundarios */
+  --accent-soft:   rgba(103, 186, 244, 0.10);      /* Fondo translúcido para chips/badges */
+  --accent-line:   rgba(103, 186, 244, 0.26);      /* Bordes sutiles con tinte azul */
+
+  /* Texto en jerarquía de contraste (alto → bajo) */
+  --white:       #FAFAFA;   /* Soft White */
+  --text:        #E8EAED;   /* Texto principal */
+  --text-mute:   #C2C7CF;   /* Párrafos secundarios */
+  --text-dim:    #888E98;   /* Labels, captions, texto auxiliar */
+
+  /* Líneas divisorias sobre fondo oscuro */
+  --line:        rgba(255, 255, 255, 0.08);
+  --line-soft:   rgba(255, 255, 255, 0.05);
+
+  /* Sombras y radios reutilizables */
+  --shadow-accent: 0 8px 30px rgba(103, 186, 244, 0.28);
+  --radius:      4px;        /* Radios pequeños — inputs, chips, botones */
+  --radius-lg:   8px;        /* Radios grandes — cards */
+
+  /* Layout */
+  --container:   1280px;     /* Ancho máximo central (reservado, no se usa aún) */
+
+  /* Curva de easing global — más natural que ease-in-out por defecto */
+  --ease:        cubic-bezier(.2, .7, .3, 1);
+}
+
+
+/* ─── COMPORTAMIENTO HTML/BODY ─────────────────────────────── */
+html {
+  scroll-behavior: smooth;        /* Scroll suave al hacer click en anchors (#proposito, etc.) */
+  -webkit-text-size-adjust: 100%; /* Evita que iOS aumente automáticamente el tamaño del texto */
+}
+
+/* Accesibilidad: respetar la preferencia del usuario para reducir animaciones.
+   Importante para personas con vértigo o sensibilidad al movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: 'Barlow', system-ui, -apple-system, sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  overflow-x: hidden;                       /* Evita scroll horizontal por SVGs que se salen */
+  -webkit-font-smoothing: antialiased;      /* Mejor renderizado de fuente en macOS */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Defaults que repetiríamos en cada elemento — los aplicamos globalmente */
+img, svg { max-width: 100%; display: block; }
+button   { font-family: inherit; }
+a        { color: inherit; text-decoration: none; }
+
+
+/* ─── ICONOS SVG (sprite) ────────────────────────────────────
+   Los íconos viven como <symbol> en index.html y se invocan con
+   <svg class="icon"><use href="#i-xxx"/></svg>. Por defecto son
+   tamaño 1em (heredan font-size) y usan stroke. Algunos íconos
+   (whatsapp, fb, etc.) son rellenos — para esos se aplica .icon-fill.
+   ──────────────────────────────────────────────────────────── */
+.icon       { width: 1em; height: 1em; stroke: currentColor; fill: none; flex-shrink: 0; vertical-align: middle; }
+.icon-lg    { width: 1.5em; height: 1.5em; }
+.icon-xl    { width: 2em; height: 2em; }
+.icon-fill  { fill: currentColor; stroke: none; }
+
+
+/* ─── TIPOGRAFÍA ─────────────────────────────────────────────
+   Bebas Neue para títulos display (impacto) — solo viene en peso 400.
+   Barlow Condensed 800 para títulos de sección (más sólido y legible).
+   Barlow normal para texto corrido.
+   ──────────────────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  color: var(--white);
+}
+.section-title {
+  /* Se sobrescribe la familia Bebas — Barlow Condensed 800 se ve más sólida
+     a tamaños medianos sin perder el carácter brand */
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  letter-spacing: 0.01em;
+  line-height: 1.02;
+}
+
+/* Eyebrow: el "antetítulo" azul pequeño con línea decorativa al final.
+   Patrón usado arriba de cada section-title para dar contexto. */
+.eyebrow {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--accent);
+  display: inline-flex; align-items: center; gap: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+.eyebrow::after {
+  content: ''; width: 40px; height: 1px;
+  background: var(--accent-dim);
+}
