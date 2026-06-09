@@ -1,0 +1,994 @@
+/* ============================================================
+   COMPONENTS.CSS — Componentes y secciones específicas
+   ------------------------------------------------------------
+   El archivo más grande. Cada bloque corresponde a un componente
+   o sección visual del sitio. Organizado en el orden en que
+   aparecen al hacer scroll (botones → hero → propósito →
+   unidades → galería → clientes → cotizar → flotantes → lightbox
+   → responsive).
+   ============================================================ */
+
+
+/* ─── BOTONES REUTILIZABLES ──────────────────────────────────
+   Dos variantes: --primary (relleno azul) y --ghost (outline).
+   Se usan en hero, formulario, galería info-card, etc.
+   ──────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.05rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.95rem 2rem; border-radius: var(--radius);
+  border: 1px solid transparent; cursor: pointer;
+  transition: all .2s var(--ease);
+}
+.btn--primary { background: var(--accent); color: var(--navy); }
+.btn--primary:hover, .btn--primary:focus-visible {
+  background: var(--accent-bright);
+  transform: translateY(-2px);              /* Pequeña "elevación" al hover */
+  box-shadow: var(--shadow-accent);
+  outline: none;
+}
+.btn--ghost { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.3); }
+.btn--ghost:hover, .btn--ghost:focus-visible {
+  border-color: var(--white);
+  background: rgba(255,255,255,0.06);
+  outline: none;
+}
+.btn .icon { width: 1.05em; height: 1.05em; }
+
+
+/* ─── HERO (sección de inicio) ───────────────────────────────
+   Layout en grid 50/50: texto a la izquierda, gota a la derecha.
+   La gota se oculta en ≤1100px y el texto ocupa todo el ancho.
+   El fondo combina dos gradientes (radial azul + lineal navy).
+   ──────────────────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  padding: 6rem 5vw 2.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center; gap: 2.5rem;
+  position: relative; overflow: hidden;     /* overflow: hidden contiene los rings */
+}
+
+/* Fondo decorativo: glow Caribbean (arriba-der) + glow Bangladesh Green
+   (abajo-izq) para profundidad + degradado oscuro de base */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 80% 50%, rgba(18,52,153,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 55% at 12% 88%, rgba(10,36,114,0.28) 0%, transparent 70%),
+    linear-gradient(160deg, #050608 40%, #0a1018 70%, #050608 100%);
+}
+
+/* Anillos concéntricos animados detrás de la gota — simulan ondas */
+.hero-rings {
+  position: absolute; right: 6%; top: 50%;
+  transform: translateY(-50%);
+  z-index: 0; pointer-events: none;
+}
+.hero-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid var(--accent-line);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ringExpand 6s ease-out infinite;
+}
+/* Cada anillo arranca con delay distinto para crear el efecto onda continua */
+.hero-ring:nth-child(1) { width: 300px; height: 300px; animation-delay: 0s; }
+.hero-ring:nth-child(2) { width: 500px; height: 500px; animation-delay: 1.5s; }
+.hero-ring:nth-child(3) { width: 720px; height: 720px; animation-delay: 3s; }
+.hero-ring:nth-child(4) { width: 940px; height: 940px; animation-delay: 4.5s; }
+
+/* Contenedor de la gota — cuadrado responsive */
+.hero-visual {
+  position: relative; z-index: 1; justify-self: center;
+  width: 100%; max-width: 720px; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+/* Glow azul difuminado detrás de la gota */
+.hero-visual::before {
+  content: ''; position: absolute; inset: 6%;
+  background: radial-gradient(circle, rgba(18,52,153,0.32) 0%, transparent 65%);
+  filter: blur(36px);
+}
+/* La gota en sí — sale ligeramente del contenedor (108%) para verse más prominente */
+.hero-drop {
+  position: relative; width: 108%; max-width: none; height: auto;
+  filter: drop-shadow(0 35px 80px rgba(18,52,153,0.42));
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Columna izquierda con todo el contenido textual */
+.hero-content { position: relative; z-index: 2; max-width: 720px; }
+
+/* Badge pill "Servicio 24 horas" con dot pulsante a la izquierda
+   Acento amarillo brillante para destacar la disponibilidad */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  background: rgba(255, 211, 0, 0.10);
+  border: 1px solid rgba(255, 211, 0, 0.45);
+  border-radius: 999px;                     /* Pill totalmente redondeado */
+  padding: 0.7rem 1.5rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.05rem; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #FFD300;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 0 24px rgba(255, 211, 0, 0.18);
+}
+/* Punto que parpadea (efecto "estamos vivos / disponibles ahora") */
+.hero-badge::before {
+  content: ''; width: 9px; height: 9px;
+  background: #FFD300; border-radius: 50%;
+  box-shadow: 0 0 12px #FFD300;             /* Glow del puntito */
+  animation: pulse 2s infinite;
+}
+
+/* Título principal — gigante en escala fluida con clamp() */
+.hero-title {
+  font-size: clamp(3.4rem, 7vw, 6.2rem);
+  line-height: 0.92;
+}
+.hero-title .accent { color: var(--accent); display: block; }
+
+/* Subtítulo descriptivo */
+.hero-sub {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  color: var(--text-mute); font-weight: 400; line-height: 1.6;
+  margin: 1.3rem 0 1.8rem; max-width: 580px;
+}
+.hero-sub strong { color: var(--white); font-weight: 600; }
+
+/* Chips con teléfonos — click directo al tel: */
+.hero-phones { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 1.4rem; }
+.phone-chip {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  padding: 0.7rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius); color: var(--white);
+  transition: all .2s;
+}
+.phone-chip:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.phone-chip .icon { color: var(--accent); width: 1.25rem; height: 1.25rem; }
+.phone-chip .num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.25rem; font-weight: 700; letter-spacing: 0.04em;
+  line-height: 1;
+}
+.phone-chip .lbl {
+  font-size: 0.74rem; color: var(--text-dim);
+  font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  line-height: 1.2; margin-top: 0.2rem;
+}
+.phone-col { display: flex; flex-direction: column; }
+
+/* CTAs (WhatsApp + Solicitar Cotización) */
+.hero-cta { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+
+/* Stats al pie del hero — 4 columnas con divisor entre ellas */
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  margin-top: 2.2rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.4rem;
+}
+.stat { padding: 0 1.2rem; border-left: 1px solid var(--line); }
+.stat:first-child { border-left: 0; padding-left: 0; }
+/* El número grande azul — animado con count-up al entrar en viewport (JS) */
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--accent); line-height: 1; }
+.stat-lbl { font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.45rem; }
+
+
+/* ─── BANNER DE EMERGENCIA ───────────────────────────────────
+   Strip vibrante entre hero y propósito con fondo Bangladesh Green
+   degradado y brillo Caribbean. Tres elementos en fila:
+   icono, texto (título + sub) y botón CTA grande.
+   En mobile se reorganiza en columna centrada.
+   ──────────────────────────────────────────────────────────── */
+.emergency {
+  position: relative;
+  padding: 0;                                /* Sin padding de section default */
+  background: linear-gradient(110deg, var(--blue-deep) 0%, var(--accent) 55%, #061843 100%);
+  overflow: hidden;
+}
+/* Brillo Caribbean decorativo arriba-derecha */
+.emergency::before {
+  content: ''; position: absolute; top: -50%; right: -10%;
+  width: 60%; height: 200%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(18,52,153,0.32) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* Patrón de puntos sutil para textura */
+.emergency::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none; opacity: 0.6;
+}
+
+.emergency-inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto;
+  padding: 2.2rem 5vw;
+  display: flex; align-items: center; gap: 2rem;
+}
+.emergency-icon {
+  width: 70px; height: 70px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--white);
+  backdrop-filter: blur(8px);
+}
+.emergency-icon .icon { width: 2rem; height: 2rem; }
+
+.emergency-text { flex: 1; min-width: 0; }
+.emergency-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 800; letter-spacing: 0.02em;
+  color: var(--white);
+  line-height: 1.05; margin-bottom: 0.35rem;
+}
+.emergency-sub {
+  color: rgba(255,255,255,0.85);
+  font-size: clamp(0.92rem, 1.3vw, 1.05rem);
+  line-height: 1.5; max-width: 560px;
+}
+
+/* Botón distintivo: blanco con texto azul oscuro */
+.btn--emergency {
+  background: var(--white);
+  color: var(--blue-deep);
+  font-size: 1.05rem;
+  padding: 1rem 1.7rem;
+  flex-shrink: 0;
+  font-weight: 800;
+  border: 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.btn--emergency:hover, .btn--emergency:focus-visible {
+  background: var(--accent);
+  color: var(--blue-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(18,52,153,0.45);
+  outline: none;
+}
+
+/* Responsive: apila vertical en tablets/mobile */
+@media (max-width: 800px) {
+  .emergency-inner {
+    flex-direction: column; text-align: center;
+    padding: 2.2rem 5vw;
+    gap: 1.2rem;
+  }
+  .emergency-text { text-align: center; }
+  .btn--emergency { width: 100%; justify-content: center; }
+}
+
+
+/* ─── PROPÓSITO ──────────────────────────────────────────────
+   Sección "Agua segura, precio justo". Layout 50/50:
+   texto descriptivo + grid de 6 valores corporativos.
+   ──────────────────────────────────────────────────────────── */
+#proposito { background: var(--navy-mid); }
+.proposito-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4.5rem; align-items: start; }
+.proposito-text p {
+  font-size: 1.05rem; color: var(--text-mute);
+  line-height: 1.75; margin-bottom: 1.1rem;
+}
+.proposito-text p strong { color: var(--white); font-weight: 600; }
+
+/* Badge que destaca cumplimiento de norma — refuerza credibilidad */
+.norma-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.6rem;
+  background: var(--accent-soft); border: 1px solid var(--accent-line);
+  border-radius: var(--radius); padding: 0.7rem 1.1rem;
+  font-size: 0.84rem; color: var(--accent);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; letter-spacing: 0.04em;
+}
+.norma-badge .icon { width: 1rem; height: 1rem; }
+
+/* Grid 2×3 de cards de valores (calidad, honestidad, etc.) */
+.valores-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.valor-card {
+  background: var(--navy-soft);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.4rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+  transition: all .25s var(--ease);
+  position: relative; overflow: hidden;
+}
+/* Línea azul decorativa que aparece al hover en la parte inferior del card */
+.valor-card::after {
+  content: ''; position: absolute; inset: auto 0 0 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform .35s var(--ease);
+}
+.valor-card:hover {
+  background: var(--navy-elev);
+  border-color: var(--accent-line);
+  transform: translateY(-3px);
+}
+.valor-card:hover::after { transform: scaleX(1); }   /* Línea se "dibuja" */
+
+/* Chip azul con el icono SVG */
+.valor-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--accent-soft); color: var(--accent);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.valor-icon .icon { width: 1.4rem; height: 1.4rem; }
+.valor-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--white);
+}
+.valor-desc { font-size: 0.86rem; color: var(--text-dim); line-height: 1.55; }
+
+
+/* ─── INTRO COMÚN DE SECCIÓN ─────────────────────────────────
+   Patrón reutilizado: eyebrow + titulo + párrafo descriptivo.
+   Usado al inicio de Unidades, Galería, Clientes, Cotizar.
+   ──────────────────────────────────────────────────────────── */
+.section-intro { max-width: 620px; margin-bottom: 3rem; }
+.section-intro p { color: var(--text-dim); margin-top: 1rem; line-height: 1.7; }
+
+
+/* ─── UNIDADES (capacidades de pipa) ─────────────────────────
+   Grid responsive de cards con el número en grande (litros) +
+   descripción de "ideal para". 5 cards más responsive.
+   ──────────────────────────────────────────────────────────── */
+.unidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.2rem;
+}
+.unidad-card {
+  background: var(--navy-mid);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.4rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+  transition: all .3s var(--ease);
+}
+/* Glow azul radial que se ilumina desde arriba al hover */
+.unidad-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, var(--accent-soft) 0%, transparent 55%);
+  opacity: 0; transition: opacity .3s;
+}
+.unidad-card > * { position: relative; }      /* Asegura que el contenido vaya por encima del ::before */
+.unidad-card:hover {
+  border-color: var(--accent-line);
+  transform: translateY(-5px);
+  background: var(--navy-elev);
+}
+.unidad-card:hover::before { opacity: 1; }
+
+.unidad-litros {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.2rem; color: var(--accent); line-height: 1;
+}
+.unidad-unit {
+  font-size: 0.85rem; color: var(--text-dim);
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 1.1rem;
+}
+/* Divider azul que crece al hover */
+.unidad-divider {
+  width: 30px; height: 2px; background: var(--accent);
+  margin: 0 auto 1.1rem; opacity: 0.4;
+  transition: opacity .3s, width .3s var(--ease);
+}
+.unidad-card:hover .unidad-divider { opacity: 1; width: 50px; }
+.unidad-detail { font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
+.unidad-detail span {
+  display: block; color: var(--text-mute); font-weight: 600;
+  margin-bottom: 0.2rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.72rem;
+}
+
+
+/* ─── FEATURES (debajo de Unidades) ──────────────────────────
+   4 cards horizontales con icono + título + descripción.
+   Resaltan los atributos del servicio (camiones, motobomba, etc.).
+   ──────────────────────────────────────────────────────────── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem; margin-top: 3.5rem;
+}
+.feature-card {
+  display: flex; align-items: flex-start; gap: 1rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-lg);
+  padding: 1.3rem 1.4rem;
+  transition: all .25s var(--ease);
+}
+.feature-card:hover { transform: translateY(-3px); background: rgba(18, 52, 153, 0.13); }
+.feature-icon { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+.feature-icon .icon { width: 1.6rem; height: 1.6rem; }
+.feature-card h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--white); margin-bottom: 0.3rem;
+}
+.feature-card p { font-size: 0.82rem; color: var(--text-mute); line-height: 1.5; }
+
+
+/* ─── GALERÍA DE PIPAS (masonry) ─────────────────────────────
+   Layout estilo magazine con grid-template-areas.
+   5 fotos de pipas distintos tamaños + 1 card de info.
+   Distribución desktop (4 columnas × 4 filas):
+     a a b c     ← a=2500 (grande 2×2), b=5000, c=10000
+     a a d d     ← d=22000 (wide horizontal)
+     e e f f     ← e=40000 (grande 2×2), f=info (grande 2×2)
+     e e f f
+   ──────────────────────────────────────────────────────────── */
+.galeria { background: #0a0e16; padding: 5rem 5vw; }
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    "a a b c"
+    "a a d d"
+    "e e f f"
+    "e e f f";
+  grid-auto-rows: 215px;
+  gap: 14px;
+}
+/* Asignamos cada hijo a su área por orden de aparición en HTML */
+.galeria-grid > :nth-child(1) { grid-area: a; }    /* Pipa 2,500 L */
+.galeria-grid > :nth-child(2) { grid-area: b; }    /* Pipa 5,000 L */
+.galeria-grid > :nth-child(3) { grid-area: c; }    /* Pipa 10,000 L */
+.galeria-grid > :nth-child(4) { grid-area: d; }    /* Pipa 22,000 L */
+.galeria-grid > :nth-child(5) { grid-area: e; }    /* Pipa 40,000 L */
+.galeria-grid > :nth-child(6) { grid-area: f; }    /* Info card */
+
+/* Card individual de foto */
+.galeria-card {
+  position: relative; overflow: hidden;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--navy-mid);
+}
+.galeria-card img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s var(--ease);
+}
+/* Efecto zoom al hover/focus para teclado */
+.galeria-card:hover img,
+.galeria-card:focus-visible img { transform: scale(1.07); }
+
+/* Tag azul siempre visible con la capacidad ("2,500 L") */
+.galeria-tag {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent);
+  background: rgba(9, 12, 17, 0.78);
+  border: 1px solid var(--accent-line);
+  backdrop-filter: blur(8px);
+  padding: 0.35rem 0.8rem; border-radius: 999px;
+}
+
+/* Overlay con gradiente que aparece al hover + ícono de lupa */
+.galeria-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(9, 12, 17, 0.92) 0%, transparent 50%);
+  display: flex; align-items: flex-end; justify-content: flex-end;
+  padding: 1rem;
+  opacity: 0; transition: opacity .3s;
+}
+.galeria-card:hover .galeria-overlay,
+.galeria-card:focus-visible .galeria-overlay { opacity: 1; }
+.galeria-zoom { color: var(--accent); }
+
+/* Card "Flotilla SEMAX" con número 5 + lista + botón */
+.galeria-info {
+  background: linear-gradient(135deg, var(--navy-mid) 0%, #0c1420 100%);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-lg);
+  padding: 1.8rem 2rem;
+  display: flex; flex-direction: column;
+  justify-content: space-between;            /* Reparte head/lista/botón verticalmente */
+  gap: 1.2rem;
+  position: relative; overflow: hidden;
+  min-height: 0;
+}
+/* Glow azul decorativo en esquina inferior derecha */
+.galeria-info::after {
+  content: ''; position: absolute;
+  right: -60px; bottom: -60px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(18,52,153,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.galeria-info > * { position: relative; }
+
+.gic-head { display: flex; flex-direction: column; gap: 0.3rem; }
+.gic-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 5vw, 5.5rem);
+  line-height: 0.9; color: var(--white);
+}
+.gic-desc {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.05rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-dim);
+}
+.gic-divider { width: 50px; height: 3px; background: var(--accent); margin: 0.6rem 0 0.2rem; }
+.gic-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.gic-list li {
+  font-size: 0.95rem; color: var(--text-mute);
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.gic-list li .icon { color: var(--accent); width: 1rem; height: 1rem; }
+.gic-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.6rem;
+  background: var(--accent); color: var(--navy);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.3rem; border-radius: var(--radius);
+  align-self: flex-start;
+  transition: background .2s, transform .15s, box-shadow .2s;
+}
+.gic-btn:hover {
+  background: var(--accent-bright);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
+}
+
+
+/* ─── CLIENTES ──────────────────────────────────────────────
+   Dos bloques: grid 7×2 de tipos de cliente con iconos +
+   strip de logos de clientes destacados.
+   ──────────────────────────────────────────────────────────── */
+#clientes { background: var(--navy-mid); }
+
+/* Grid 7 columnas × 2 filas — perfecto para los 14 tipos */
+.tipos-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.8rem;
+}
+.tipo-card {
+  background: var(--navy-soft);
+  padding: 1.7rem 1rem; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  transition: all .2s var(--ease);
+}
+.tipo-card:hover {
+  background: var(--navy-elev);
+  border-color: var(--accent-line);
+  transform: translateY(-2px);
+}
+/* Círculo azul con el emoji del tipo de cliente */
+.tipo-emoji {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--accent-soft);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 1.55rem;
+}
+.tipo-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+/* Heading "Clientes que ya confían en SEMAX" con líneas azuls a los lados */
+.logos-label {
+  margin: 4.5rem 0 1.8rem;
+  text-align: center;
+}
+.logos-label p {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.5rem; font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--white);
+  display: inline-flex; align-items: center; gap: 1rem;
+}
+.logos-label p::before,
+.logos-label p::after {
+  content: ''; display: inline-block;
+  width: 50px; height: 2px; background: var(--accent);
+}
+
+/* Grid de cards de logos — listos para recibir <img> reales */
+.logos-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.logo-card {
+  background: var(--navy-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1rem;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 110px;
+  transition: all .25s var(--ease);
+  filter: grayscale(0.4);                   /* Logos atenuados por defecto */
+}
+.logo-card:hover {
+  background: var(--navy-elev);
+  border-color: var(--accent-line);
+  filter: grayscale(0);                     /* Color completo al hover */
+  transform: translateY(-3px);
+}
+.logo-card img {
+  max-width: 100%; max-height: 60px;
+  width: auto; height: auto;
+  object-fit: contain;
+}
+/* Texto fallback cuando no hay imagen de logo (placeholder estilizado) */
+.logo-card .logo-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.15rem; font-weight: 800;
+  color: var(--text-mute);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  text-align: center; line-height: 1.15;
+}
+@media (max-width: 900px) {
+  .logos-strip { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .logos-strip { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+/* ─── COTIZAR (sección de contacto y formulario) ─────────────
+   Layout 50/50: info de contacto a la izquierda (sticky para
+   que siga al scroll), formulario a la derecha.
+   ──────────────────────────────────────────────────────────── */
+#cotizar { background: var(--navy); position: relative; overflow: hidden; }
+/* Glow Bangladesh Green decorativo en el lado derecho */
+#cotizar::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 50%; height: 100%; pointer-events: none;
+  background: radial-gradient(ellipse 80% 80% at 80% 50%, rgba(10,36,114,0.22) 0%, transparent 70%);
+}
+.cotizar-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  align-items: start;
+}
+/* Sticky: la columna de info se queda fija mientras scrolleas el form */
+.cotizar-info { position: sticky; top: 7rem; }
+.cotizar-info p { color: var(--text-mute); line-height: 1.7; margin: 1rem 0 1.8rem; }
+
+/* Lista de items de contacto (tel, WhatsApp, email, dirección, horario) */
+.contact-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.contact-item {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  color: var(--white);
+  transition: all .2s;
+}
+/* Solo los anchor (no la dirección y horario que son <div>) reciben hover azul */
+a.contact-item:hover, a.contact-item:focus-visible {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  transform: translateX(3px);
+  outline: none;
+}
+.ci-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--accent-soft); color: var(--accent);
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ci-icon .icon { width: 1.15rem; height: 1.15rem; }
+.ci-label {
+  font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-dim);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+}
+.ci-value { font-size: 0.95rem; color: var(--white); font-weight: 500; margin-top: 0.15rem; }
+
+
+/* ─── FORMULARIO DE COTIZACIÓN ───────────────────────────────
+   Form agrupado en dos <fieldset>: "Tus datos" y "Tu pedido".
+   Al enviar, JS valida y abre WhatsApp con mensaje pre-llenado.
+   Estados: normal, focus azul, error rojo, success completo.
+   ──────────────────────────────────────────────────────────── */
+.form-card {
+  background: var(--navy-mid);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2.4rem; position: relative; z-index: 1;
+}
+.form-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.35rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--white);
+  margin-bottom: 0.4rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.form-card h3 .icon { color: var(--accent); width: 1.3rem; height: 1.3rem; }
+.form-help { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 1.6rem; }
+
+/* Fieldset = grupo lógico de inputs ("Tus datos", "Tu pedido") */
+.form-fieldset { border: 0; padding: 0; margin-bottom: 1.4rem; }
+.form-legend {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--accent);
+  padding-bottom: 0.7rem; margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+  width: 100%;
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group.full { grid-column: 1 / -1; }     /* Ocupa todo el ancho del form */
+.form-group label {
+  font-size: 0.74rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-mute);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+}
+.form-group label .req { color: var(--accent); }   /* Asterisco azul para campos requeridos */
+
+/* Estilo base de inputs/selects/textarea */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem; color: var(--white);
+  font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+  outline: none; width: 100%;
+}
+.form-group select option { background: var(--navy-mid); }   /* Hace que las opciones se vean oscuras */
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(176, 181, 187, 0.4); }
+
+/* Estado focus: anillo azul para indicar el campo activo */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--accent);
+  background: rgba(18, 52, 153, 0.04);
+  box-shadow: 0 0 0 3px rgba(18, 52, 153, 0.12);
+}
+
+/* Estado error (cuando JS detecta campo requerido vacío) */
+.form-group.has-error input,
+.form-group.has-error select { border-color: #ff6b6b; }
+.form-group .err-msg { font-size: 0.75rem; color: #ff6b6b; display: none; }
+.form-group.has-error .err-msg { display: block; }
+
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+/* Botón de envío */
+.form-submit {
+  width: 100%; margin-top: 0.5rem;
+  background: var(--accent); color: var(--navy);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; border: 0; cursor: pointer;
+  padding: 1rem 2rem; border-radius: var(--radius);
+  transition: all .2s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+}
+.form-submit:hover { background: var(--accent-bright); box-shadow: var(--shadow-accent); }
+.form-submit[disabled] { opacity: 0.7; cursor: wait; }  /* Estado mientras procesa */
+
+/* Spinner circular que reemplaza el texto del botón durante el envío */
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(9, 12, 17, 0.3);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+/* Mensaje de éxito que reemplaza el form completo tras envío exitoso */
+.form-success {
+  display: none; text-align: center; padding: 2.5rem 1rem;
+  color: var(--accent);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.25rem; font-weight: 700; letter-spacing: 0.06em;
+}
+.form-success .check {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent);
+  display: inline-flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+}
+.form-success .check .icon { width: 30px; height: 30px; }
+.form-success-sub {
+  font-size: 0.9rem; color: var(--text-mute);
+  font-family: 'Barlow', sans-serif; font-weight: 400;
+  margin-top: 0.6rem; line-height: 1.5;
+}
+.form-success-sub strong { color: var(--accent); }
+
+/* Cuando el form-card tiene .is-success: oculta form, muestra mensaje */
+.form-card.is-success .form-content { display: none; }
+.form-card.is-success .form-success { display: block; }
+
+
+/* ─── BOTONES FLOTANTES (esquina inferior derecha) ───────────
+   WhatsApp + llamada — siempre visibles para conversión rápida.
+   Animaciones (bounceIn, waPulse) definidas en animations.css.
+   ──────────────────────────────────────────────────────────── */
+.float-buttons {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+  display: flex; flex-direction: column; gap: 0.7rem; align-items: flex-end;
+}
+.float-wa {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: #25D366;                       /* Verde oficial de WhatsApp */
+  color: white;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: 0.06em;
+  padding: 0.85rem 1.3rem; border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  transition: all .2s;
+}
+.float-wa:hover, .float-wa:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.55);
+  background: #22c55e; outline: none;
+}
+.float-wa .icon { width: 1.2rem; height: 1.2rem; fill: currentColor; stroke: none; }
+.float-call {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px;
+  background: var(--accent); color: var(--navy);
+  border-radius: 50%; font-size: 1.3rem;
+  box-shadow: 0 4px 15px rgba(18, 52, 153, 0.4);
+  transition: all .2s;
+}
+.float-call:hover, .float-call:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(18, 52, 153, 0.55);
+  outline: none;
+}
+.float-call .icon { width: 1.2rem; height: 1.2rem; }
+
+
+/* ─── LIGHTBOX (visor de fotos de galería) ───────────────────
+   Modal full-screen que se activa al hacer click en una foto.
+   Navegación con flechas (← → del teclado), cierre con Esc o
+   click en fondo. JS gestiona el focus-trap para accesibilidad.
+   ──────────────────────────────────────────────────────────── */
+.lightbox {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.93);
+  z-index: 999;                              /* Por encima de TODO */
+  align-items: center; justify-content: center; padding: 2rem;
+}
+.lightbox.is-open { display: flex; }
+
+/* Botones circulares (cerrar, prev, next) */
+.lb-btn {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 46px; height: 46px; border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .15s;
+}
+.lb-btn:hover, .lb-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  outline: none; transform: scale(1.05);
+}
+.lb-close { top: 1.5rem; right: 1.5rem; }
+.lb-prev  { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+.lb-next  { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+/* El hover en prev/next mantiene el translateY porque está combinado con scale */
+.lb-prev:hover { transform: translateY(-50%) scale(1.05); }
+.lb-next:hover { transform: translateY(-50%) scale(1.05); }
+.lb-stage { text-align: center; max-width: 90vw; }
+.lb-img {
+  max-height: 80vh; max-width: 85vw; object-fit: contain;
+  border-radius: var(--radius-lg); margin: 0 auto;
+}
+.lb-cap {
+  margin-top: 1rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 0.1em; color: var(--accent);
+  text-transform: uppercase;
+}
+.lb-counter { font-size: 0.78rem; color: var(--text-dim); margin-top: 0.4rem; }
+
+
+/* ─── RESPONSIVE BREAKPOINTS ─────────────────────────────────
+   • ≤1100px: oculta gota del hero, texto ocupa todo el ancho
+   • ≤900px:  layouts de 2 cols → 1 col (propósito, cotizar, etc.)
+              galería de 4 cols → 2 cols (areas reordenadas)
+              tipos de 7 cols → 4 cols
+   • ≤600px:  stats hero a 2×2, galería a 1 col, todo apilado
+   ──────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  /* Stack vertical: gota arriba (más chica), texto abajo */
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-top: 5.5rem;
+  }
+  .hero-visual {
+    order: -1;                   /* La gota va PRIMERO en mobile/tablet */
+    max-width: 320px;            /* Más chica para no robar espacio al texto */
+    margin: 0 auto;
+  }
+  .hero-drop { width: 100%; }    /* No sobresale en mobile */
+  /* Anillos más sutiles y centrados sobre la gota */
+  .hero-rings { right: 50%; transform: translate(50%, -50%); }
+  .hero-ring:nth-child(3),
+  .hero-ring:nth-child(4) { display: none; }   /* Los más grandes salen del viewport */
+}
+@media (max-width: 600px) {
+  .hero-visual { max-width: 240px; }
+}
+
+@media (max-width: 900px) {
+  .proposito-grid,
+  .cotizar-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .cotizar-info { position: static; }       /* Quita sticky en mobile (no tiene sentido) */
+  .form-grid { grid-template-columns: 1fr; }
+
+  /* Galería reorganizada: 2 cols, foto principal arriba ancha */
+  .galeria-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "a a"
+      "b c"
+      "d d"
+      "e e"
+      "f f";
+    grid-auto-rows: 200px;
+  }
+  .tipos-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 600px) {
+  /* Stats del hero apilados 2×2 con divisores reorganizados */
+  .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 1.2rem 0; }
+  .stat { padding: 1rem 1rem; border-left: 1px solid var(--line); }
+  .stat:nth-child(odd) { border-left: 0; padding-left: 0; }
+
+  .unidades-grid { grid-template-columns: repeat(2, 1fr); }
+  .tipos-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Galería: todo en una columna apilada */
+  .galeria-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "a" "b" "c" "d" "e" "f";
+  }
+
+  /* WhatsApp flotante se convierte en círculo (sin texto) */
+  .float-wa .label { display: none; }
+  .float-wa { padding: 0.85rem; width: 52px; height: 52px; border-radius: 50%; justify-content: center; }
+  .form-card { padding: 1.6rem; }
+}
