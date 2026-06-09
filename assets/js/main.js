@@ -136,6 +136,18 @@
   const formCard  = document.getElementById('form-card');
   const submitBtn = document.getElementById('form-submit');
 
+  /* Mostrar/ocultar input "litros personalizados" según la selección del select de capacidad.
+     Cuando el usuario elige "Otra cantidad", aparece un input numérico para que escriba
+     la cantidad exacta. Cualquier otra opción lo oculta y limpia su valor. */
+  const capSelect = document.getElementById('f-cap');
+  const customWrap = document.getElementById('f-custom-wrap');
+  const customInput = document.getElementById('f-custom');
+  capSelect?.addEventListener('change', () => {
+    const isCustom = capSelect.value === 'custom';
+    if (customWrap) customWrap.hidden = !isCustom;
+    if (!isCustom && customInput) customInput.value = '';
+  });
+
   form?.addEventListener('submit', (ev) => {
     ev.preventDefault();                        // No queremos el submit nativo del navegador
 
@@ -159,7 +171,10 @@
     const name    = get('f-name');
     const tel     = get('f-tel');
     const empresa = get('f-empresa');
-    const cap     = get('f-cap');
+    // Si eligió "Otra cantidad" tomamos el valor del input numérico; si no, el texto del select
+    const capRaw  = get('f-cap');
+    const custom  = get('f-custom');
+    const cap     = capRaw === 'custom' ? (custom ? custom + ' litros' : 'Otra cantidad') : capRaw;
     const cis     = get('f-cisterna');
     const dir     = get('f-dir');
     const msg     = get('f-msg');

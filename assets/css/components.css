@@ -52,13 +52,13 @@
   position: relative; overflow: hidden;     /* overflow: hidden contiene los rings */
 }
 
-/* Fondo decorativo: glow Light Blue (arriba-der) + glow Bold Blue
+/* Fondo decorativo: glow Caribbean (arriba-der) + glow Bangladesh Green
    (abajo-izq) para profundidad + degradado oscuro de base */
 .hero-bg {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 55% at 80% 50%, rgba(103,186,244,0.10) 0%, transparent 70%),
-    radial-gradient(ellipse 55% 55% at 12% 88%, rgba(30,70,107,0.28) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 55% at 80% 50%, rgba(18,52,153,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 55% at 12% 88%, rgba(10,36,114,0.28) 0%, transparent 70%),
     linear-gradient(160deg, #050608 40%, #0a1018 70%, #050608 100%);
 }
 
@@ -90,13 +90,13 @@
 /* Glow azul difuminado detrás de la gota */
 .hero-visual::before {
   content: ''; position: absolute; inset: 6%;
-  background: radial-gradient(circle, rgba(103,186,244,0.32) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(18,52,153,0.32) 0%, transparent 65%);
   filter: blur(36px);
 }
 /* La gota en sí — sale ligeramente del contenedor (108%) para verse más prominente */
 .hero-drop {
   position: relative; width: 108%; max-width: none; height: auto;
-  filter: drop-shadow(0 35px 80px rgba(103,186,244,0.42));
+  filter: drop-shadow(0 35px 80px rgba(18,52,153,0.42));
   animation: float 6s ease-in-out infinite;
 }
 
@@ -181,6 +181,95 @@
 /* El número grande azul — animado con count-up al entrar en viewport (JS) */
 .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--accent); line-height: 1; }
 .stat-lbl { font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.45rem; }
+
+
+/* ─── BANNER DE EMERGENCIA ───────────────────────────────────
+   Strip vibrante entre hero y propósito con fondo Bangladesh Green
+   degradado y brillo Caribbean. Tres elementos en fila:
+   icono, texto (título + sub) y botón CTA grande.
+   En mobile se reorganiza en columna centrada.
+   ──────────────────────────────────────────────────────────── */
+.emergency {
+  position: relative;
+  padding: 0;                                /* Sin padding de section default */
+  background: linear-gradient(110deg, var(--blue-deep) 0%, var(--accent) 55%, #061843 100%);
+  overflow: hidden;
+}
+/* Brillo Caribbean decorativo arriba-derecha */
+.emergency::before {
+  content: ''; position: absolute; top: -50%; right: -10%;
+  width: 60%; height: 200%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(18,52,153,0.32) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* Patrón de puntos sutil para textura */
+.emergency::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none; opacity: 0.6;
+}
+
+.emergency-inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto;
+  padding: 2.2rem 5vw;
+  display: flex; align-items: center; gap: 2rem;
+}
+.emergency-icon {
+  width: 70px; height: 70px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--white);
+  backdrop-filter: blur(8px);
+}
+.emergency-icon .icon { width: 2rem; height: 2rem; }
+
+.emergency-text { flex: 1; min-width: 0; }
+.emergency-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 800; letter-spacing: 0.02em;
+  color: var(--white);
+  line-height: 1.05; margin-bottom: 0.35rem;
+}
+.emergency-sub {
+  color: rgba(255,255,255,0.85);
+  font-size: clamp(0.92rem, 1.3vw, 1.05rem);
+  line-height: 1.5; max-width: 560px;
+}
+
+/* Botón distintivo: blanco con texto azul oscuro */
+.btn--emergency {
+  background: var(--white);
+  color: var(--blue-deep);
+  font-size: 1.05rem;
+  padding: 1rem 1.7rem;
+  flex-shrink: 0;
+  font-weight: 800;
+  border: 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+.btn--emergency:hover, .btn--emergency:focus-visible {
+  background: var(--accent);
+  color: var(--blue-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(18,52,153,0.45);
+  outline: none;
+}
+
+/* Responsive: apila vertical en tablets/mobile */
+@media (max-width: 800px) {
+  .emergency-inner {
+    flex-direction: column; text-align: center;
+    padding: 2.2rem 5vw;
+    gap: 1.2rem;
+  }
+  .emergency-text { text-align: center; }
+  .btn--emergency { width: 100%; justify-content: center; }
+}
 
 
 /* ─── PROPÓSITO ──────────────────────────────────────────────
@@ -329,7 +418,7 @@
   padding: 1.3rem 1.4rem;
   transition: all .25s var(--ease);
 }
-.feature-card:hover { transform: translateY(-3px); background: rgba(103, 186, 244, 0.13); }
+.feature-card:hover { transform: translateY(-3px); background: rgba(18, 52, 153, 0.13); }
 .feature-icon { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
 .feature-icon .icon { width: 1.6rem; height: 1.6rem; }
 .feature-card h4 {
@@ -428,7 +517,7 @@
   right: -60px; bottom: -60px;
   width: 240px; height: 240px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(103,186,244,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(18,52,153,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .galeria-info > * { position: relative; }
@@ -573,11 +662,11 @@
    que siga al scroll), formulario a la derecha.
    ──────────────────────────────────────────────────────────── */
 #cotizar { background: var(--navy); position: relative; overflow: hidden; }
-/* Glow Bold Blue decorativo en el lado derecho */
+/* Glow Bangladesh Green decorativo en el lado derecho */
 #cotizar::before {
   content: ''; position: absolute; top: 0; right: 0;
   width: 50%; height: 100%; pointer-events: none;
-  background: radial-gradient(ellipse 80% 80% at 80% 50%, rgba(30,70,107,0.22) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 80% at 80% 50%, rgba(10,36,114,0.22) 0%, transparent 70%);
 }
 .cotizar-layout {
   display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
@@ -682,8 +771,8 @@ a.contact-item:hover, a.contact-item:focus-visible {
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--accent);
-  background: rgba(103, 186, 244, 0.04);
-  box-shadow: 0 0 0 3px rgba(103, 186, 244, 0.12);
+  background: rgba(18, 52, 153, 0.04);
+  box-shadow: 0 0 0 3px rgba(18, 52, 153, 0.12);
 }
 
 /* Estado error (cuando JS detecta campo requerido vacío) */
@@ -772,12 +861,12 @@ a.contact-item:hover, a.contact-item:focus-visible {
   width: 46px; height: 46px;
   background: var(--accent); color: var(--navy);
   border-radius: 50%; font-size: 1.3rem;
-  box-shadow: 0 4px 15px rgba(103, 186, 244, 0.4);
+  box-shadow: 0 4px 15px rgba(18, 52, 153, 0.4);
   transition: all .2s;
 }
 .float-call:hover, .float-call:focus-visible {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(103, 186, 244, 0.55);
+  box-shadow: 0 8px 25px rgba(18, 52, 153, 0.55);
   outline: none;
 }
 .float-call .icon { width: 1.2rem; height: 1.2rem; }
@@ -840,8 +929,25 @@ a.contact-item:hover, a.contact-item:focus-visible {
    • ≤600px:  stats hero a 2×2, galería a 1 col, todo apilado
    ──────────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
-  .hero { grid-template-columns: 1fr; gap: 2rem; }
-  .hero-visual { display: none; }
+  /* Stack vertical: gota arriba (más chica), texto abajo */
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-top: 5.5rem;
+  }
+  .hero-visual {
+    order: -1;                   /* La gota va PRIMERO en mobile/tablet */
+    max-width: 320px;            /* Más chica para no robar espacio al texto */
+    margin: 0 auto;
+  }
+  .hero-drop { width: 100%; }    /* No sobresale en mobile */
+  /* Anillos más sutiles y centrados sobre la gota */
+  .hero-rings { right: 50%; transform: translate(50%, -50%); }
+  .hero-ring:nth-child(3),
+  .hero-ring:nth-child(4) { display: none; }   /* Los más grandes salen del viewport */
+}
+@media (max-width: 600px) {
+  .hero-visual { max-width: 240px; }
 }
 
 @media (max-width: 900px) {

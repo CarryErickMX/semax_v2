@@ -22,11 +22,11 @@
    en cascada toda la página. Si se quiere cambiar el acento azul
    a otro color de marca, solo se toca --accent (y sus derivados).
 
-   Paleta "Clustr studio":
-     • Jet Black   #0D0D0D  → fondos oscuros
-     • Bold Blue   #1E466B  → azul profundo (superficies/gradientes)
-     • Light Blue  #67BAF4  → acento principal brillante
-     • Soft White  #FAFAFA  → texto/blanco
+   Paleta actualizada (Caribbean):
+     • Jet Black         #0D0D0D  → fondos oscuros
+     • Bangladesh Green  #0A2472  → azul muy profundo (gradientes/emergencia)
+     • Caribbean Green   #123499  → acento principal de marca
+     • Soft White        #FAFAFA  → texto/blanco
    ──────────────────────────────────────────────────────────── */
 :root {
   /* Paleta de fondos en escala de oscuridad (base Jet Black con leve matiz azul) */
@@ -35,13 +35,13 @@
   --navy-soft:   #171A22;   /* Cards de valores y tipos de cliente */
   --navy-elev:   #202632;   /* Estado hover de cards (un poco más claro) */
 
-  /* Acento azul SEMAX y sus derivados */
-  --blue-deep:     #1E466B;                       /* Bold Blue — azul profundo para superficies/gradientes */
-  --accent:        #67BAF4;                        /* Light Blue — color de acento principal */
-  --accent-bright: #8FCEF7;                        /* Hover de botones — azul más claro */
-  --accent-dim:    #3E7DB0;                        /* Versión apagada para detalles secundarios */
-  --accent-soft:   rgba(103, 186, 244, 0.10);      /* Fondo translúcido para chips/badges */
-  --accent-line:   rgba(103, 186, 244, 0.26);      /* Bordes sutiles con tinte azul */
+  /* Acento azul Caribbean y derivados */
+  --blue-deep:     #0A2472;                       /* Bangladesh Green — azul profundo para superficies/gradientes */
+  --accent:        #123499;                       /* Caribbean Green — color de acento principal */
+  --accent-bright: #2A55D8;                       /* Hover de botones — Caribbean más vivo/claro */
+  --accent-dim:    #0A2472;                       /* Versión apagada para detalles secundarios */
+  --accent-soft:   rgba(18, 52, 153, 0.14);       /* Fondo translúcido para chips/badges */
+  --accent-line:   rgba(18, 52, 153, 0.45);       /* Bordes con tinte azul Caribbean */
 
   /* Texto en jerarquía de contraste (alto → bajo) */
   --white:       #FAFAFA;   /* Soft White */
@@ -54,7 +54,7 @@
   --line-soft:   rgba(255, 255, 255, 0.05);
 
   /* Sombras y radios reutilizables */
-  --shadow-accent: 0 8px 30px rgba(103, 186, 244, 0.28);
+  --shadow-accent: 0 8px 30px rgba(18, 52, 153, 0.38);
   --radius:      4px;        /* Radios pequeños — inputs, chips, botones */
   --radius-lg:   8px;        /* Radios grandes — cards */
 
