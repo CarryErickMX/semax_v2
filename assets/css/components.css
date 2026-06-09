@@ -103,23 +103,25 @@
 /* Columna izquierda con todo el contenido textual */
 .hero-content { position: relative; z-index: 2; max-width: 720px; }
 
-/* Badge pill "Servicio 24 horas" con dot pulsante a la izquierda */
+/* Badge pill "Servicio 24 horas" con dot pulsante a la izquierda
+   Acento amarillo brillante para destacar la disponibilidad */
 .hero-badge {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-line);
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  background: rgba(255, 211, 0, 0.10);
+  border: 1px solid rgba(255, 211, 0, 0.45);
   border-radius: 999px;                     /* Pill totalmente redondeado */
-  padding: 0.5rem 1.1rem;
+  padding: 0.7rem 1.5rem;
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.88rem; font-weight: 700; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--accent);
+  font-size: 1.05rem; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #FFD300;
   margin-bottom: 1.4rem;
+  box-shadow: 0 0 24px rgba(255, 211, 0, 0.18);
 }
 /* Punto que parpadea (efecto "estamos vivos / disponibles ahora") */
 .hero-badge::before {
-  content: ''; width: 7px; height: 7px;
-  background: var(--accent); border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent);          /* Glow del puntito */
+  content: ''; width: 9px; height: 9px;
+  background: #FFD300; border-radius: 50%;
+  box-shadow: 0 0 12px #FFD300;             /* Glow del puntito */
   animation: pulse 2s infinite;
 }
 
