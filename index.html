@@ -36,9 +36,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO: título y descripción que aparecen en Google y al compartir -->
-  <title>SEMAX | Transporte de Agua Potable CDMX · 24/7</title>
-  <meta name="description" content="Transporte de agua potable certificada en CDMX. Servicio 24 horas, 365 días. Pipas de 2,500 a 40,000 litros. Llama al 55 6067 0592.">
+  <!-- SEO: título y descripción que aparecen en Google y al compartir.
+       IMPORTANTE: dejamos siempre explícito el giro del negocio
+       ("Transporte de Agua Potable / Pipas de Agua") para que los
+       sistemas automáticos NO confundan la marca "SEMAX" con otra cosa. -->
+  <title>Transporte de Agua Potable | SEMAX</title>
+  <meta name="description" content="SEMAX es una empresa mexicana de transporte de agua potable en pipas (camiones cisterna) en CDMX y Estado de México. Servicio de pipas de agua 24 horas, 365 días. Capacidades de 2,500 a 40,000 litros. Llama al 55 6067 0592.">
+  <meta name="keywords" content="pipas de agua, transporte de agua potable, pipas de agua CDMX, servicio de pipas, camiones cisterna, agua potable a domicilio, abastecimiento de agua, pipas de agua Estado de México">
+  <meta name="author" content="SEMAX Transporte de Agua Potable">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph (vista previa al compartir en WhatsApp/Facebook/etc.)
+       Refuerza el giro real del negocio para clasificadores automáticos -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SEMAX Transporte de Agua Potable">
+  <meta property="og:title" content="SEMAX | Pipas y Transporte de Agua Potable en CDMX">
+  <meta property="og:description" content="Empresa de pipas de agua potable en CDMX y Estado de México. Servicio 24/7. Pipas de 2,500 a 40,000 litros.">
+  <meta property="og:locale" content="es_MX">
 
   <!-- Color del navegador en móvil (barra superior) -->
   <meta name="theme-color" content="#0D0D0D">
@@ -63,6 +77,54 @@
   <link rel="stylesheet" href="assets/css/layout.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/animations.css">
+
+  <!-- ─── DATOS ESTRUCTURADOS (JSON-LD / Schema.org) ──────────────
+       Le declara a Google/buscadores de forma machine-readable que
+       SEMAX es un negocio local de transporte de agua potable.
+       Esto ayuda a que clasificadores automáticos NO confundan la
+       marca con una "sustancia" y mejora el SEO local.
+       ───────────────────────────────────────────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://transportesemax.com/#business",
+    "name": "SEMAX Transporte de Agua Potable",
+    "alternateName": "Pipas de Agua SEMAX",
+    "description": "Empresa de transporte de agua potable en pipas (camiones cisterna) en la Ciudad de México y Estado de México. Servicio de pipas de agua certificada las 24 horas, los 365 días del año, con capacidades de 2,500 a 40,000 litros.",
+    "url": "https://transportesemax.com/",
+    "telephone": "+525560670592",
+    "email": "pipasemax@gmail.com",
+    "image": "https://transportesemax.com/img/pipa-10000.jpg",
+    "priceRange": "$$",
+    "areaServed": [
+      { "@type": "City", "name": "Ciudad de México" },
+      { "@type": "State", "name": "Estado de México" }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ciudad de México",
+      "addressRegion": "CDMX",
+      "addressCountry": "MX"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "knowsAbout": ["Transporte de agua potable", "Pipas de agua", "Camiones cisterna", "Abastecimiento de agua"],
+    "makesOffer": {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Servicio de pipas de agua potable",
+        "serviceType": "Transporte y entrega de agua potable en pipas",
+        "areaServed": "Ciudad de México y Estado de México"
+      }
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -163,7 +225,9 @@
      en hamburguesa. JS gestiona el toggle. -->
 
 <nav class="nav" id="navbar">
-  <a href="#inicio" class="nav-logo" aria-label="SEMAX inicio">SE<span>MAX</span></a>
+  <a href="#inicio" class="nav-logo" aria-label="Transporte de Agua Potable - inicio">
+    <span class="nav-logo-brand">Transporte de <span>Agua Potable</span></span>
+  </a>
   <ul class="nav-list" id="nav-menu">
     <li><a href="#proposito">Nosotros</a></li>
     <li><a href="#unidades">Unidades</a></li>
@@ -273,7 +337,7 @@
     <div class="proposito-text reveal">
       <div class="eyebrow">Nuestro Propósito</div>
       <h2 class="section-title">AGUA SEGURA.<br>PRECIO JUSTO.</h2>
-      <p style="margin-top:1.5rem;">Somos <strong>SEMAX</strong>, empresa especializada en el transporte de agua potable en la Ciudad de México. Llevamos más de una década garantizando que hogares, empresas e instituciones reciban agua <strong>certificada y segura</strong> sin importar la hora o el día.</p>
+      <p style="margin-top:1.5rem;">Somos una <strong>empresa especializada</strong> en el transporte de agua potable en la Ciudad de México. Llevamos más de una década garantizando que hogares, empresas e instituciones reciban agua <strong>certificada y segura</strong> sin importar la hora o el día.</p>
       <p>Cada entrega es realizada con unidades modernas equipadas con tanque de acero inoxidable y motobomba de última generación, garantizando que el agua llegue <strong>sin contaminación y con la presión necesaria</strong> para cualquier tipo de cisterna.</p>
       <div class="norma-badge"><svg class="icon"><use href="#i-check"/></svg> Cumplimos NOM-127-SSA1-1994 — Agua para uso y consumo humano</div>
     </div>
@@ -400,33 +464,33 @@
   <div class="galeria-grid">
     <div class="galeria-card galeria-card--tall" data-lb tabindex="0" role="button" aria-label="Ver foto de pipa 2,500 litros">
       <span class="galeria-tag">2,500 L</span>
-      <img src="img/pipa-2500.jpg" alt="Pipa SEMAX 2,500 litros" loading="lazy">
+      <img src="img/pipa-2500.jpg" alt="Pipa de Agua Potable 2,500 litros" loading="lazy">
       <div class="galeria-overlay"><span class="galeria-zoom"><svg class="icon icon-lg"><use href="#i-zoom"/></svg></span></div>
     </div>
     <div class="galeria-card" data-lb tabindex="0" role="button" aria-label="Ver foto de pipa 5,000 litros">
       <span class="galeria-tag">5,000 L</span>
-      <img src="img/pipa-5000.jpg" alt="Pipa SEMAX 5,000 litros" loading="lazy">
+      <img src="img/pipa-5000.jpg" alt="Pipa de Agua Potable 5,000 litros" loading="lazy">
       <div class="galeria-overlay"><span class="galeria-zoom"><svg class="icon icon-lg"><use href="#i-zoom"/></svg></span></div>
     </div>
     <div class="galeria-card" data-lb tabindex="0" role="button" aria-label="Ver foto de pipa 10,000 litros">
       <span class="galeria-tag">10,000 L</span>
-      <img src="img/pipa-10000.jpg" alt="Pipa SEMAX 10,000 litros" loading="lazy">
+      <img src="img/pipa-10000.jpg" alt="Pipa de Agua Potable 10,000 litros" loading="lazy">
       <div class="galeria-overlay"><span class="galeria-zoom"><svg class="icon icon-lg"><use href="#i-zoom"/></svg></span></div>
     </div>
     <div class="galeria-card galeria-card--wide" data-lb tabindex="0" role="button" aria-label="Ver foto de pipa 22,000 litros">
       <span class="galeria-tag">22,000 L</span>
-      <img src="img/pipa-22000.jpg" alt="Pipa SEMAX 22,000 litros" loading="lazy">
+      <img src="img/pipa-22000.jpg" alt="Pipa de Agua Potable 22,000 litros" loading="lazy">
       <div class="galeria-overlay"><span class="galeria-zoom"><svg class="icon icon-lg"><use href="#i-zoom"/></svg></span></div>
     </div>
     <div class="galeria-card galeria-card--wide" data-lb tabindex="0" role="button" aria-label="Ver foto de pipa 40,000 litros">
       <span class="galeria-tag">40,000 L</span>
-      <img src="img/pipa-40000.jpg" alt="Pipa SEMAX 40,000 litros" loading="lazy">
+      <img src="img/pipa-40000.jpg" alt="Pipa de Agua Potable 40,000 litros" loading="lazy">
       <div class="galeria-overlay"><span class="galeria-zoom"><svg class="icon icon-lg"><use href="#i-zoom"/></svg></span></div>
     </div>
 
     <div class="galeria-info">
       <div class="gic-head">
-        <div class="eyebrow" style="margin:0">Flotilla SEMAX</div>
+        <div class="eyebrow" style="margin:0">Nuestra Flotilla</div>
         <div class="gic-num">5</div>
         <div class="gic-desc">Capacidades disponibles</div>
         <div class="gic-divider"></div>
@@ -489,7 +553,7 @@
     <div class="tipo-card"><div class="tipo-emoji">💧</div><div class="tipo-name">Purificadoras</div></div>
   </div>
 
-  <div class="logos-label reveal"><p>Clientes que ya confían en SEMAX</p></div>
+  <div class="logos-label reveal"><p>Clientes que ya confían en nosotros</p></div>
   <div class="logos-strip reveal">
     <div class="logo-card"><span class="logo-text">Gobierno<br>Edo. Méx.</span></div>
     <div class="logo-card"><span class="logo-text">IMSS</span></div>
@@ -628,7 +692,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="brand-name">SE<span>MAX</span></div>
+      <div class="brand-name">Transporte de <span>Agua Potable</span></div>
       <p>Transporte de agua potable certificada en CDMX y Zona Metropolitana. Servicio profesional, puntual y confiable desde hace más de una década.</p>
       <div class="social-row">
         <a href="https://www.facebook.com/SEMAX-109636391310735/" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook"><svg class="icon icon-fill"><use href="#i-fb"/></svg></a>
@@ -671,7 +735,7 @@
   </div>
 
   <div class="footer-bottom">
-    <p>© <span id="year">2026</span> SEMAX Transporte de Agua Potable · Todos los derechos reservados.</p>
+    <p>© <span id="year">2026</span> Transporte de Agua Potable · Todos los derechos reservados.</p>
     <p>Servicio 24 hrs · 365 días · CDMX y Zona Metropolitana</p>
   </div>
 </footer>
